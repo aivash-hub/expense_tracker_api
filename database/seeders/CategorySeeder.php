@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\ExpenseCategory;
+use App\Domain\Expense\Enums\ExpenseCategory;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
