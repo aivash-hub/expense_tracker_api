@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ExpenseCategory;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
@@ -13,19 +13,11 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = [
-            'Groceries',
-            'Leisure',
-            'Electronics',
-            'Utilities',
-            'Clothing',
-            'Health',
-            'Others',
-        ];
-        foreach ($categories as $name) {
+        foreach (ExpenseCategory::cases() as $category) {
             Category::firstOrCreate(
-                ['slug' => Str::slug($name)],
-                ['name' => $name]);
+                ['slug' => $category->value],
+                ['name' => $category->label(),]
+            );
         }
     }
 }
