@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Expense;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Expense\StoreRequest;
+use App\Models\Expense;
 
 class StoreController extends Controller
 {
-    public function __invoke()
+    public function __invoke(StoreRequest $request)
     {
-        // TODO: Implement __invoke() method.
+        $expense = Expense::create([
+            ...$request->validated(),
+            'user_id' => $request->user()->id,
+        ]);
+
+        return response()->json($expense, 201);
     }
 }
