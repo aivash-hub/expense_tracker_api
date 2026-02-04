@@ -11,7 +11,10 @@ class IndexController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $expenses = ExpenseQuery::forIndex($request)->get();
+        $perPage = $request->integer('per_page', 10);
+
+        $expenses = ExpenseQuery::forIndex($request)
+            ->paginate($perPage);
 
         return ExpenseResource::collection($expenses);
     }

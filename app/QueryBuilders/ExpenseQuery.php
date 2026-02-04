@@ -13,12 +13,21 @@ class ExpenseQuery
         $query = Expense::query()
             ->where('user_id', auth()->id());
 
+        // Фильтрация по датам
         if ($request->filled('from')) {
             $query->whereDate('spent_at', '>=', $request->input('from'));
         }
 
         if ($request->filled('to')) {
             $query->whereDate('spent_at', '<=', $request->input('to'));
+        }
+
+        // Сортировка
+        $sort = $request->input('sort', 'spent_at');
+        $direction = $request->input('direction', 'desc');
+
+        if (in_array($sort, ['spent_at', 'amount', 'created_at'], true)) {
+            $query->orderBy($sort, $direction === 'asc' ? 'asc' : 'desc');
         }
 
         return $query;
