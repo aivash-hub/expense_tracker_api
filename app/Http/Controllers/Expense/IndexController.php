@@ -10,7 +10,18 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $expenses = Expense::where('user_id', auth()->id())->get();
+        $query = Expense::query()
+            ->where('user_id', auth()->id());
+
+        if (request()->filled('from')) {
+            $query->whereDate('spent_at', '>=', request('from'));
+        }
+
+        if (request()->filled('to')) {
+            $query->whereDate('spent_at', '<=', request('to'));
+        }
+
+        $expenses = $query->get();
 
         return ExpenseResource::collection($expenses);
     }
