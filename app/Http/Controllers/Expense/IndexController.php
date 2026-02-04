@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Expense;
 
+use App\Domain\Expense\Data\ExpenseIndexData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Expense\IndexRequest;
 use App\Http\Resources\ExpenseResource;
@@ -11,10 +12,17 @@ class IndexController extends Controller
 {
     public function __invoke(IndexRequest $request)
     {
-        $perPage = $request->integer('per_page', 10);
+        $data = new ExpenseIndexData(
+            from: $request->validated('from'),
+            to: $request->validated('to'),
+            sort: $request->validated('sort'),
+            direction: $request->validated('direction', 'desc'),
+            perPage: $request->validated('per_page', 10),
+            userId: $request->user()->id,
+        );
 
-        $expenses = ExpenseQuery::forIndex($request)
-            ->paginate($perPage);
+        $expenses = ExpenseQuery::forIndex($data)
+            ->paginate($data->perPage);
 
         return ExpenseResource::collection($expenses);
     }

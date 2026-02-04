@@ -2,32 +2,29 @@
 
 namespace App\QueryBuilders;
 
+use App\Domain\Expense\Data\ExpenseIndexData;
 use App\Models\Expense;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
 class ExpenseQuery
 {
-    public static function forIndex(Request $request): Builder
+    public static function forIndex(ExpenseIndexData $data): Builder
     {
         $query = Expense::query()
-            ->where('user_id', auth()->id());
+            ->where('user_id', $data->userId);
 
         // Фильтрация по датам
-        if ($request->filled('from')) {
-            $query->whereDate('spent_at', '>=', $request->input('from'));
+        if ($data->from) {
+            $query->whereDate('spent_at', '>=', $data->from);
         }
 
-        if ($request->filled('to')) {
-            $query->whereDate('spent_at', '<=', $request->input('to'));
+        if ($data->to) {
+            $query->whereDate('spent_at', '<=', $data->to);
         }
 
         // Сортировка
-        $sort = $request->input('sort', 'spent_at');
-        $direction = $request->input('direction', 'desc');
-
-        if (in_array($sort, ['spent_at', 'amount', 'created_at'], true)) {
-            $query->orderBy($sort, $direction === 'asc' ? 'asc' : 'desc');
+        if ($data->sort) {
+            $query->orderBy($data->sort, $data->direction);
         }
 
         return $query;
