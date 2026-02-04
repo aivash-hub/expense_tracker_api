@@ -10,7 +10,7 @@ class UpdateController extends Controller
 {
     public function __invoke(Expense $expense, UpdateRequest $request)
     {
-        abort_if($expense->user_id !== $request->user()->id, 403);
+        abort_if($expense->user_id !== auth()->id(), 403);
         $expense->update($request->validated());
 
         return response()->json($expense);

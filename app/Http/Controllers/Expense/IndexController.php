@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Expense;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
-use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke()
     {
-        $expenses = Expense::where('user_id', $request->user()->id)->get();
+        $expenses = Expense::where('user_id', auth()->id())->get();
 
         return response()->json($expenses);
     }

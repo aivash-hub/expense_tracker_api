@@ -12,7 +12,7 @@ class StoreController extends Controller
     {
         $expense = Expense::create([
             ...$request->validated(),
-            'user_id' => $request->user()->id,
+            'user_id' => auth()->id(),
         ]);
 
         return response()->json($expense, 201);
