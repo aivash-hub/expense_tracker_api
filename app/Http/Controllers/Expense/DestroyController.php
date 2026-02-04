@@ -9,7 +9,7 @@ class DestroyController extends Controller
 {
     public function __invoke(Expense $expense)
     {
-        abort_if($expense->user_id !== auth()->id(), 403);
+        $this->authorize('delete', $expense);
 
         $expense->delete();
 

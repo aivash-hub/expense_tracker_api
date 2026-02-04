@@ -9,7 +9,7 @@ class ShowController extends Controller
 {
     public function __invoke(Expense $expense)
     {
-        abort_if($expense->user_id !== auth()->id(), 403);
+        $this->authorize('view', $expense);
 
         return response()->json($expense);
     }
