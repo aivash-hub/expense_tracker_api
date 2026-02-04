@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Expense;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Expense\StoreRequest;
+use App\Http\Resources\ExpenseResource;
 use App\Models\Expense;
 
 class StoreController extends Controller
@@ -15,6 +16,9 @@ class StoreController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return response()->json($expense, 201);
+        return response()->json(
+            new ExpenseResource($expense),
+            201
+        );
     }
 }

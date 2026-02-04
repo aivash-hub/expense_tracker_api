@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Expense;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ExpenseResource;
 use App\Models\Expense;
 
 class IndexController extends Controller
@@ -11,6 +12,6 @@ class IndexController extends Controller
     {
         $expenses = Expense::where('user_id', auth()->id())->get();
 
-        return response()->json($expenses);
+        return ExpenseResource::collection($expenses);
     }
 }

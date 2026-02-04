@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Expense;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Expense\UpdateRequest;
+use App\Http\Resources\ExpenseResource;
 use App\Models\Expense;
 
 class UpdateController extends Controller
@@ -14,6 +15,6 @@ class UpdateController extends Controller
 
         $expense->update($request->validated());
 
-        return response()->json($expense);
+        return new ExpenseResource($expense);
     }
 }
