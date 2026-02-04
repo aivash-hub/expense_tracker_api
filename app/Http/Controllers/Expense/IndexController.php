@@ -6,12 +6,15 @@ use App\Domain\Expense\Data\ExpenseIndexData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Expense\IndexRequest;
 use App\Http\Resources\ExpenseResource;
+use App\Models\Expense;
 use App\QueryBuilders\ExpenseQuery;
 
 class IndexController extends Controller
 {
     public function __invoke(IndexRequest $request)
     {
+        $this->authorize('viewAny', Expense::class);
+
         $data = new ExpenseIndexData(
             from: $request->validated('from'),
             to: $request->validated('to'),
