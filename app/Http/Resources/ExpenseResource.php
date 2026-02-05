@@ -19,6 +19,7 @@ class ExpenseResource extends JsonResource
             'amount' => (float) $this->amount,
             'description' => $this->description,
             'spent_at' => $this->spent_at?->toDateTimeString(),
+            'category' => new CategoryResource($this->whenLoaded('category')),
             'created_at' => $this->created_at->toDateTimeString(),
         ];
     }

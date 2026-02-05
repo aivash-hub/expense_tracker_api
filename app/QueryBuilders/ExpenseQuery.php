@@ -11,6 +11,7 @@ class ExpenseQuery
     public static function forIndex(ExpenseIndexData $data): Builder
     {
         $query = Expense::query()
+            ->with('category')
             ->where('user_id', $data->userId);
 
         // Фильтрация по датам
