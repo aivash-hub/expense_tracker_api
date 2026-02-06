@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Expense;
 
+use App\Domain\Expense\Enums\ExpensePeriod;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -43,7 +44,10 @@ class IndexRequest extends FormRequest
                 'max:100',
             ],
 
-            'period' => ['nullable', 'in:week,current_month,3months']
+            'period' => [
+                'nullable',
+                Rule::in(ExpensePeriod::values()),
+            ],
         ];
     }
 }
