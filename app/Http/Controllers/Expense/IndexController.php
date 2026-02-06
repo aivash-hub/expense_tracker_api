@@ -22,6 +22,7 @@ class IndexController extends Controller
             direction: $request->validated('direction', 'desc'),
             perPage: $request->validated('per_page', 10),
             userId: $request->user()->id,
+            period: $request->validated('period'),
         );
 
         $expenses = ExpenseQuery::forIndex($data)

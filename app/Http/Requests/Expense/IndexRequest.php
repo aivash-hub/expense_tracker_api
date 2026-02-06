@@ -42,6 +42,8 @@ class IndexRequest extends FormRequest
                 'min:1',
                 'max:100',
             ],
+
+            'period' => ['nullable', 'in:week,current_month,3months']
         ];
     }
 }

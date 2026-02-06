@@ -11,6 +11,7 @@ class ExpenseIndexData
         public readonly string $direction,
         public readonly int $perPage,
         public readonly int $userId,
+        public readonly ?string $period = null,
     ) {
     }
 }
